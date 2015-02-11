@@ -1,13 +1,15 @@
 yii2-ajax-new
 =============
 
-This widget allows you to easily create a new related entity from within a form in Yii, in a bootstrap Modal view.
+This widget allow you to easily create a new related entity instance from within a form in Yii, in a bootstrap Modal view.
 
-The basic usage is meant to be :
-  - You have an ActiveForm for your model A
-  - This form includes a dropDownList() linked to another entity B
-  - You want to be able to create and add a new entry in the drop down, without leaving the A form
+Let's suppose for instance that you have an Article model with a manyToOne relation with a Category model (article.category_id = category.id)
 
+When creating a new Article, you realize that you didn't create the target Category yet. You would normally cancel the Article creation, create the Category, and then go back to the Article creation.
+
+yii2-ajax-new will allow you to avoid that hassle by creating the new Category right away from the Article form.
+
+A complete sample if provided below.
 
 Installation
 ------------
@@ -32,15 +34,17 @@ to the require section of your `composer.json` file.
 Configuration
 -------------
 
-You need to configure your controller as follows:
+Assuming you have created both Article and Category models with the relation Article.category_id = Category.id, you will need to:
+
+1. Configure your CategoryController as follows:
 ```php
     public function actions()
     {
         return [
             'ajaxNew' => [
-                'class'      => '\app\components\AjaxNewAction',
+                'class'      => '\inspire\action\AjaxNewAction',
                 'viewFile'   => '_form',
-                'model'      => new Project(),
+                'model'      => new Category(),
                 'attr_id'    => 'id',
                 'attr_label' => 'label',
             ]
@@ -48,4 +52,17 @@ You need to configure your controller as follows:
     }
 ```
 
+2. Add the AjaxNew widget in your article/_form view:
+```php
+$newCategory = AjaxNew::widget([
+    'url' => Url::toRoute(['/category/ajaxNew']),
+    'header' => '<strong>' . Yii::t('app', 'Create new category') . '</strong>',
+    'selector' => '#article-category',
+]);
 
+// ...
+
+<?= $form->field($model, 'category', [
+'template' => "{label} " . $newCategory . " \n{input}\n{hint}\n{error}",
+
+```
