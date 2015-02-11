@@ -1,0 +1,28 @@
+{
+	"name": "inspire-agency/yii2-ajax-new",
+	"description": "This widget allows you to easily create a new related entity from within a form in Yii, in a bootstrap Modal view.",
+	"keywords": ["yii", "extension", "widget", "form", "modal"],
+	"homepage": "https://github.com/inspire-agency/yii2-ajax-new",
+	"type": "yii2-extension",
+	"license": "BSD-3-Clause",
+	"authors": [
+        {
+            "name": "Mehdi Achour",
+            "email": "machour@gmail.com"
+        },
+        {
+            "name": "Selim Achour",
+            "email": "selimachour@gmail.com"
+        }
+
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"yiisoft/yii2": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"inspire\\": ""
+		}
+	}
+}
